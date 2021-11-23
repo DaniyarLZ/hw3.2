@@ -3,6 +3,7 @@ package com.geektech.hw31;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView image;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -33,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
         pin = findViewById(R.id.edit11);
         image = findViewById(R.id.image);
         tap = findViewById(R.id.btn);
+        tap.setOnClickListener(v -> {
+            if (pin.getText().toString().length() >= 6 && gmail.getText().toString() != null) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                tap.setBackgroundColor(getColor(R.color.black));
+                intent.putExtra("key1", gmail.getText().toString());
+                intent.putExtra("123456", pin.getText().toString());
+                startActivity(intent);
+            } else {
+                pin.setError("Введите 6 символов");
+                gmail.setError("Введите Логин");
+                tap.setBackgroundColor(getColor(R.color.gray));
+            }
+
+        });
 
         Glide.with(this).load("https://i.pinimg.com/474x/23/ab/a6/23aba60b66ef08174bb7455c4a8a2d2f.jpg").listener(new RequestListener<Drawable>() {
             @Override
@@ -46,26 +60,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }).into(image);
 
-        gmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (gmail.getText().toString().length() > 0) {
-                    tap.setBackgroundColor(getColor(R.color.black));
-                } else {
-                    tap.setBackgroundColor(getColor(R.color.gray));
-                }
-
-            }
-        });
     }
+
+
 }
